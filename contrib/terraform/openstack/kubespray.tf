@@ -18,13 +18,9 @@ module "ips" {
   number_of_k8s_nodes           = var.number_of_k8s_nodes
   floatingip_pool               = var.floatingip_pool
   number_of_bastions            = var.number_of_bastions
-  external_net                  = var.external_net
-  network_name                  = var.network_name
-  router_id                     = module.network.router_id
   k8s_nodes                     = var.k8s_nodes
   k8s_master_fips               = var.k8s_master_fips
   bastion_fips                  = var.bastion_fips
-  router_internal_port_id       = module.network.router_internal_port_id
   depends_on = [
     module.network
   ]
