@@ -123,6 +123,10 @@ output "router_id" {
   value = module.network.router_id
 }
 
+output "k8s_master_internal_ips" {
+  value = concat(module.compute.k8s_no_floating_ip_master_addresses, module.compute.k8s_master_addresses)
+}
+
 output "k8s_master_fips" {
   value = concat(module.ips.k8s_master_fips, module.ips.k8s_master_no_etcd_fips)
 }
