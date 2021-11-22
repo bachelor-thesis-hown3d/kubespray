@@ -1,6 +1,7 @@
-variable "external_net" {}
-
-variable "network_name" {}
+variable "external_network_name" {
+  type = string
+  description = "Name of the external network"
+}
 
 variable "network_dns_domain" {}
 

@@ -179,8 +179,9 @@ variable "wait_for_floatingip" {
   default     = "false"
 }
 
-variable "external_net" {
-  description = "uuid of the external/public network"
+variable "external_network_name" {
+  type = string
+  description = "name of the external/public network"
 }
 
 variable "supplementary_master_groups" {
@@ -301,4 +302,26 @@ variable "group_vars_path" {
   description = "path to the inventory group vars directory"
   type        = string
   default     = "./group_vars"
+}
+
+variable "cpus_k8s_node" {
+  type = number
+  description = "vCPUs used for the node flavor image query"
+  default = 2
+} 
+variable "memory_k8s_node" {
+  type = number
+  description = "Memory in Bytes for the node flavor image query"
+  default = 2048
+}
+
+variable "cpus_k8s_master" {
+  type = number
+  description = "vCPUs used for the master flavor image query"
+  default = 2
+} 
+variable "memory_k8s_master" {
+  type = number
+  description = "Memory in Bytes for the master flavor image query"
+  default = 2048
 }

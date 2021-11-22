@@ -8,6 +8,28 @@ variable "az_list_node" {
   type = list(string)
 }
 
+variable "cpus_k8s_node" {
+  type = number
+  description = "vCPUs used for the node flavor image query"
+  default = 2
+} 
+variable "memory_k8s_node" {
+  type = number
+  description = "Memory in Bytes for the node flavor image query"
+  default = 2048
+}
+
+variable "cpus_k8s_master" {
+  type = number
+  description = "vCPUs used for the master flavor image query"
+  default = 2
+} 
+variable "memory_k8s_master" {
+  type = number
+  description = "Memory in Bytes for the master flavor image query"
+  default = 2048
+}
+
 variable "number_of_k8s_masters" {}
 
 variable "number_of_k8s_masters_no_etcd" {}
@@ -50,17 +72,11 @@ variable "ssh_user" {}
 
 variable "ssh_user_gfs" {}
 
-variable "flavor_k8s_master" {}
-
-variable "flavor_k8s_node" {}
-
 variable "flavor_etcd" {}
 
 variable "flavor_gfs_node" {}
 
 variable "network_name" {}
-
-variable "flavor_bastion" {}
 
 variable "network_id" {
   default = ""

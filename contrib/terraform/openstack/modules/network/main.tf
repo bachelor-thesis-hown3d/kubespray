@@ -1,8 +1,13 @@
+data "openstack_networking_network_v2" "external_network" {
+  name = var.external_network_name
+  external = true
+}
+
 resource "openstack_networking_router_v2" "k8s" {
   name                = "${var.cluster_name}-router"
   count               = var.use_neutron == 1 && var.router_id == null ? 1 : 0
   admin_state_up      = "true"
-  external_network_id = var.external_net
+  external_network_id = data.openstack_networking_network_v2.external_network.id
 }
 
 data "openstack_networking_router_v2" "k8s" {
@@ -11,14 +16,14 @@ data "openstack_networking_router_v2" "k8s" {
 }
 
 resource "openstack_networking_network_v2" "k8s" {
-  name           = var.network_name
+  name           = "${var.cluster_name}-network"
   count          = var.use_neutron
   dns_domain     = var.network_dns_domain != null ? var.network_dns_domain : null
   admin_state_up = "true"
 }
 
 resource "openstack_networking_subnet_v2" "k8s" {
-  name            = "${var.cluster_name}-internal-network"
+  name            = "${var.cluster_name}-subnet"
   count           = var.use_neutron
   network_id      = openstack_networking_network_v2.k8s[count.index].id
   cidr            = var.subnet_cidr
