@@ -3,7 +3,6 @@ resource "openstack_networking_port_v2" "lb_port" {
   fixed_ip {
     subnet_id = var.subnet_id
   }
-  device_id = openstack_lb_loadbalancer_v2.k8s_lb.id
   admin_state_up = "true"
 }
 
@@ -16,6 +15,7 @@ resource "openstack_lb_loadbalancer_v2" "k8s_lb" {
   name = var.cluster_name
   vip_subnet_id = var.subnet_id
   vip_network_id = var.network_id
+  vip_port_id = openstack_networking_port_v2.lb_port.id
 }
 
 resource "openstack_lb_listener_v2" "k8s-control-plane" {
