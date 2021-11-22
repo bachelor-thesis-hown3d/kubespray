@@ -90,6 +90,7 @@ memory_k8s_master = var.memory_k8s_master
   extra_sec_groups                             = var.extra_sec_groups
   extra_sec_groups_name                        = var.extra_sec_groups_name
   group_vars_path                              = var.group_vars_path
+  network_name = one(module.network.network_name)
 
   network_id = module.network.router_id
   depends_on = [

@@ -22,7 +22,7 @@ number_of_bastions = 1
 number_of_etcd = 0
 
 # masters
-number_of_k8s_masters = 
+number_of_k8s_masters = 1
 
 number_of_k8s_masters_no_etcd = 0
 
@@ -36,7 +36,7 @@ memory_k8s_master = 2048
 # nodes
 number_of_k8s_nodes = 0
 
-number_of_k8s_nodes_no_floating_ip = 3
+number_of_k8s_nodes_no_floating_ip = 2
 
 cpus_k8s_node = 2
 memory_k8s_node = 2048
@@ -50,9 +50,6 @@ memory_k8s_node = 2048
 # May be different from other nodes
 #ssh_user_gfs = "ubuntu"
 #flavor_gfs_node = "<UUID>"
-
-# networking
-network_name = ""
 
 external_network_name = "ext01"
 
