@@ -26,6 +26,9 @@ module "ips" {
   k8s_master_fips               = var.k8s_master_fips
   bastion_fips                  = var.bastion_fips
   router_internal_port_id       = module.network.router_internal_port_id
+  depends_on = [
+    module.network
+  ]
 }
 
 module "compute" {
@@ -64,7 +67,7 @@ module "compute" {
   flavor_k8s_node                              = var.flavor_k8s_node
   flavor_etcd                                  = var.flavor_etcd
   flavor_gfs_node                              = var.flavor_gfs_node
-  network_name                                 = var.network_name
+  network_name                                 = one(module.network.network_name)
   flavor_bastion                               = var.flavor_bastion
   k8s_master_fips                              = module.ips.k8s_master_fips
   k8s_master_no_etcd_fips                      = module.ips.k8s_master_no_etcd_fips
@@ -89,77 +92,20 @@ module "compute" {
   group_vars_path                              = var.group_vars_path
 
   network_id = module.network.router_id
-}
-
-data "openstack_networking_network_v2" "network" {
-  name = var.network_name
   depends_on = [
     module.network
   ]
 }
 
-
-resource "openstack_lb_loadbalancer_v2" "k8s_lb" {
-  name = "kubernetes"
-  vip_subnet_id = module.network.subnet_id
-  vip_network_id = data.openstack_networking_network_v2.network.network_id
+module "lb" {
+  source = "./modules/loadbalancer"
+  cluster_name = var.cluster_name
+  network_id = one(module.network.network_id) 
+  k8s_masters = concat(module.compute.k8s_no_floating_ip_master_addresses, module.compute.k8s_master_addresses)
+  bastion_address = one(module.compute.k8s_bastion_address)
+  lb_fip = module.ips.k8s_lb_fip
+  subnet_id = module.network.subnet_id
 }
-
-resource "openstack_lb_listener_v2" "k8s-control-plane" {
-  protocol        = "HTTPS"
-  protocol_port   = 6443
-  loadbalancer_id = openstack_lb_loadbalancer_v2.k8s_lb.id
-}
-
-# Create pool
-resource "openstack_lb_pool_v2" "k8s_control_plane" {
-  name        = "kubernetes_control_plane"
-  protocol    = "TCP"
-  lb_method   = "ROUND_ROBIN"
-  listener_id = openstack_lb_listener_v2.k8s-control-plane.id
-  #depends_on  = [openstack_lb_listener_v2.http]
-}
-
-# Add member to pool
-resource "openstack_lb_member_v2" "k8s_masters" {
-  count = length(module.compute.k8s_no_floating_ip_masters)
-  address       = element(module.compute.k8s_bastion_address, count.index)
-  protocol_port = 6443
-  pool_id       = openstack_lb_pool_v2.k8s_control_plane.id
-  subnet_id     =  module.network.subnet_id
-  depends_on    = [module.compute]
-}
-
-resource "openstack_lb_listener_v2" "k8s_bastion" {
-  protocol        = "TCP"
-  protocol_port   = 22
-  loadbalancer_id = openstack_lb_loadbalancer_v2.k8s_lb.id
-}
-
-# Create pool
-resource "openstack_lb_pool_v2" "bastion" {
-  name        = "kubernetes_bastion"
-  protocol    = "TCP"
-  lb_method   = "SOURCE_IP"
-  listener_id = openstack_lb_listener_v2.k8s_bastion.id
-  #depends_on  = [openstack_lb_listener_v2.http]
-}
-
-# Add member to pool
-resource "openstack_lb_member_v2" "k8s_bastion" {
-  address       = element(module.compute.k8s_bastion_address, 0)
-  protocol_port = 6443
-  pool_id       = openstack_lb_pool_v2.k8s_control_plane.id
-  subnet_id     =  module.network.subnet_id
-  #depends_on    = [openstack_lb_pool_v2.http]
-}
-
-resource "openstack_compute_floatingip_associate_v2" "k8s_lb" {
-  instance_id           = openstack_lb_loadbalancer_v2.k8s_lb.id
-  floating_ip           = module.ips.k8s_lb_fip
-  wait_until_associated = var.wait_for_floatingip
-}
-
 
 output "lb_fip" {
   value = module.ips.k8s_lb_fip

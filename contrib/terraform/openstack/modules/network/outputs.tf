@@ -9,3 +9,11 @@ output "router_internal_port_id" {
 output "subnet_id" {
   value = element(concat(openstack_networking_subnet_v2.k8s.*.id, [""]), 0)
 }
+
+output "network_id" {
+  value = openstack_networking_network_v2.k8s.*.id
+}
+
+output "network_name" {
+  value = openstack_networking_network_v2.k8s.*.name
+}

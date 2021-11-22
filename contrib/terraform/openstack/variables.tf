@@ -14,6 +14,7 @@ variable "az_list_node" {
   default     = ["nova"]
 }
 
+
 variable "number_of_bastions" {
   default = 1
 }
