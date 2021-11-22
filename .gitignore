@@ -9,6 +9,7 @@ temp
 *.bak
 *.tfstate
 *.tfstate.backup
+provider.tf
 .terraform/
 contrib/terraform/aws/credentials.tfvars
 /ssh-bastion.conf
