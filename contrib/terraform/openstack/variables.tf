@@ -312,7 +312,7 @@ variable "cpus_k8s_node" {
 variable "memory_k8s_node" {
   type = number
   description = "Memory in Bytes for the node flavor image query"
-  default = 2048
+  default = 4096
 }
 
 variable "cpus_k8s_master" {
@@ -323,5 +323,5 @@ variable "cpus_k8s_master" {
 variable "memory_k8s_master" {
   type = number
   description = "Memory in Bytes for the master flavor image query"
-  default = 2048
+  default = 4096
 }
