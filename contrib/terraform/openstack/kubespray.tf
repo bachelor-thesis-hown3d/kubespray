@@ -115,10 +115,6 @@ output "private_subnet_id" {
   value = module.network.subnet_id
 }
 
-output "floating_network_id" {
-  value = var.external_net
-}
-
 output "router_id" {
   value = module.network.router_id
 }

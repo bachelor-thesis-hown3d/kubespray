@@ -26,7 +26,7 @@ data "openstack_compute_flavor_v2" "node" {
 }
 
 data "openstack_compute_flavor_v2" "bastion" {
-  vcpus = 0.5
+  vcpus = 1
   ram   = 512
 }
 
