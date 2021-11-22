@@ -599,12 +599,12 @@ resource "openstack_compute_instance_v2" "glusterfs_node_no_floating_ip" {
   }
 }
 
-resource "openstack_compute_floatingip_associate_v2" "bastion" {
-  count                 = var.number_of_bastions
-  floating_ip           = var.bastion_fips[count.index]
-  instance_id           = element(openstack_compute_instance_v2.bastion.*.id, count.index)
-  wait_until_associated = var.wait_for_floatingip
-}
+#resource "openstack_compute_floatingip_associate_v2" "bastion" {
+  #count                 = var.number_of_bastions
+  #floating_ip           = var.bastion_fips[count.index]
+  #instance_id           = element(openstack_compute_instance_v2.bastion.*.id, count.index)
+  #wait_until_associated = var.wait_for_floatingip
+#}
 
 
 resource "openstack_compute_floatingip_associate_v2" "k8s_master" {

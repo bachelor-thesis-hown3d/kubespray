@@ -27,8 +27,14 @@ resource "openstack_networking_floatingip_v2" "k8s_node" {
   depends_on = [null_resource.dummy_dependency]
 }
 
+resource "openstack_networking_floatingip_v2" "k8s_lb" {
+  pool       = var.floatingip_pool
+  depends_on = [null_resource.dummy_dependency]
+}
+
 resource "openstack_networking_floatingip_v2" "bastion" {
-  count      = length(var.bastion_fips) > 0 ? 0 : var.number_of_bastions
+  #count      = length(var.bastion_fips) > 0 ? 0 : var.number_of_bastions
+  count = 0
   pool       = var.floatingip_pool
   depends_on = [null_resource.dummy_dependency]
 }
