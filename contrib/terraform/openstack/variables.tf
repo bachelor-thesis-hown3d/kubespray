@@ -291,36 +291,17 @@ variable "group_vars_path" {
   default     = "./group_vars"
 }
 
-variable "cpus_k8s_node" {
-  type = number
-  description = "vCPUs used for the node flavor image"
-  default = 2
-} 
-variable "memory_k8s_node" {
-  type = number
-  description = "Memory in Bytes for the node flavor image"
-  default = 2048
+variable "flavor_bastion" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+  default     = 3
 }
 
-variable "disk_k8s_node" {
-  type = number
-  description = "Disk Size in Gigabytes for the master flavor image"
-  default = 20
+variable "flavor_k8s_master" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+  default     = 3
 }
 
-variable "cpus_k8s_master" {
-  type = number
-  description = "vCPUs used for the master flavor image"
-  default = 2
-} 
-variable "memory_k8s_master" {
-  type = number
-  description = "Memory in Bytes for the master flavor image"
-  default = 2048
-}
-
-variable "disk_k8s_master" {
-  type = number
-  description = "Disk Size in GigaBytes for the master flavor image"
-  default = 20
+variable "flavor_k8s_node" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+  default     = 3
 }

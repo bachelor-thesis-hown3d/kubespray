@@ -58,12 +58,9 @@ module "compute" {
   image_gfs_uuid                               = var.image_gfs_uuid
   ssh_user                                     = var.ssh_user
   ssh_user_gfs                                 = var.ssh_user_gfs
-cpus_k8s_node = var.cpus_k8s_node
-memory_k8s_node = var.memory_k8s_node
-disk_k8s_node = var.disk_k8s_node
-cpus_k8s_master = var.cpus_k8s_master
-memory_k8s_master = var.memory_k8s_master
-disk_k8s_master = var.disk_k8s_master
+flavor_k8s_master                            = var.flavor_k8s_master
+  flavor_k8s_node                              = var.flavor_k8s_node
+    flavor_bastion                               = var.flavor_bastion
   flavor_etcd                                  = var.flavor_etcd
   flavor_gfs_node                              = var.flavor_gfs_node
   k8s_master_fips                              = module.ips.k8s_master_fips

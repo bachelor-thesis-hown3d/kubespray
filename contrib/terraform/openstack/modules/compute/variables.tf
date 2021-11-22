@@ -8,40 +8,6 @@ variable "az_list_node" {
   type = list(string)
 }
 
-variable "cpus_k8s_node" {
-  type = number
-  description = "vCPUs used for the node flavor image"
-  default = 2
-} 
-variable "memory_k8s_node" {
-  type = number
-  description = "Memory in Bytes for the node flavor image"
-  default = 4096
-}
-
-variable "disk_k8s_node" {
-  type = number
-  description = "Disk Size in Gigabytes for the master flavor image"
-  default = 20
-}
-
-variable "cpus_k8s_master" {
-  type = number
-  description = "vCPUs used for the master flavor image"
-  default = 2
-} 
-variable "memory_k8s_master" {
-  type = number
-  description = "Memory in Bytes for the master flavor image"
-  default = 4096
-}
-
-variable "disk_k8s_master" {
-  type = number
-  description = "Disk Size in GigaBytes for the master flavor image"
-  default = 20
-}
-
 
 variable "number_of_k8s_masters" {}
 
@@ -88,6 +54,18 @@ variable "ssh_user_gfs" {}
 variable "flavor_etcd" {}
 
 variable "flavor_gfs_node" {}
+
+variable "flavor_bastion" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+}
+
+variable "flavor_k8s_master" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+}
+
+variable "flavor_k8s_node" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+}
 
 variable "network_name" {}
 
