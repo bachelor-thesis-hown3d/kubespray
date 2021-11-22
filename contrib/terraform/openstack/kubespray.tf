@@ -1,7 +1,7 @@
 module "network" {
   source = "./modules/network"
 
-  external_net       = var.external_net
+  external_network_name       = var.external_network_name
   network_name       = var.network_name
   subnet_cidr        = var.subnet_cidr
   cluster_name       = var.cluster_name
