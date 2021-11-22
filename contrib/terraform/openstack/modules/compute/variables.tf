@@ -10,25 +10,38 @@ variable "az_list_node" {
 
 variable "cpus_k8s_node" {
   type = number
-  description = "vCPUs used for the node flavor image query"
+  description = "vCPUs used for the node flavor image"
   default = 2
 } 
 variable "memory_k8s_node" {
   type = number
-  description = "Memory in Bytes for the node flavor image query"
+  description = "Memory in Bytes for the node flavor image"
   default = 2048
+}
+
+variable "disk_k8s_node" {
+  type = number
+  description = "Disk Size in Gigabytes for the master flavor image"
+  default = 20
 }
 
 variable "cpus_k8s_master" {
   type = number
-  description = "vCPUs used for the master flavor image query"
+  description = "vCPUs used for the master flavor image"
   default = 2
 } 
 variable "memory_k8s_master" {
   type = number
-  description = "Memory in Bytes for the master flavor image query"
+  description = "Memory in Bytes for the master flavor image"
   default = 2048
 }
+
+variable "disk_k8s_master" {
+  type = number
+  description = "Disk Size in GigaBytes for the master flavor image"
+  default = 20
+}
+
 
 variable "number_of_k8s_masters" {}
 

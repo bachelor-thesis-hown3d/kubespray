@@ -36,7 +36,7 @@ memory_k8s_master = 2048
 # nodes
 number_of_k8s_nodes = 0
 
-number_of_k8s_nodes_no_floating_ip = 2
+number_of_k8s_nodes_no_floating_ip = 3
 
 cpus_k8s_node = 2
 memory_k8s_node = 2048
