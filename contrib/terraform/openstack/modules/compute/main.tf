@@ -15,25 +15,22 @@ data "openstack_images_image_v2" "image_master" {
   name = var.image_master == "" ? var.image : var.image_master
 }
 
-resource "openstack_compute_flavor_v2" "master" {
-  name = "${var.cluster_name}-k8s-node-flavor"
+data "openstack_compute_flavor_v2" "master" {
   disk = var.disk_k8s_master
   vcpus = var.cpus_k8s_master
   ram   = var.memory_k8s_master
 }
 
-resource "openstack_compute_flavor_v2" "node" {
-  name = "${var.cluster_name}-k8s-node-flavor"
+data "openstack_compute_flavor_v2" "node" {
   vcpus = var.cpus_k8s_node
   ram   = var.memory_k8s_node
   disk = var.disk_k8s_node
 }
 
-resource "openstack_compute_flavor_v2" "bastion" {
-  name = "${var.cluster_name}-k8s-bastion-flavor"
+data "openstack_compute_flavor_v2" "bastion" {
   vcpus = 1
   ram   = 512
-  disk = 10
+  disk = 20
 }
 
 resource "openstack_compute_keypair_v2" "k8s" {
@@ -194,7 +191,7 @@ resource "openstack_compute_instance_v2" "bastion" {
   name       = "${var.cluster_name}-bastion-${count.index + 1}"
   count      = var.number_of_bastions
   image_id   = var.bastion_root_volume_size_in_gb == 0 ? local.image_to_use_node : null
-  flavor_id  = openstack_compute_flavor_v2.bastion.id
+  flavor_id  = data.openstack_compute_flavor_v2.bastion.id
   key_pair   = openstack_compute_keypair_v2.k8s.name
 
   dynamic "block_device" {
@@ -234,7 +231,7 @@ resource "openstack_compute_instance_v2" "k8s_master" {
   count             = var.number_of_k8s_masters
   availability_zone = element(var.az_list, count.index)
   image_id          = var.master_root_volume_size_in_gb == 0 ? local.image_to_use_master : null
-  flavor_id = openstack_compute_flavor_v2.master.id
+  flavor_id = data.openstack_compute_flavor_v2.master.id
   key_pair          = openstack_compute_keypair_v2.k8s.name
 
 
@@ -281,7 +278,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_etcd" {
   count             = var.number_of_k8s_masters_no_etcd
   availability_zone = element(var.az_list, count.index)
   image_id          = var.master_root_volume_size_in_gb == 0 ? local.image_to_use_master : null
-  flavor_id = openstack_compute_flavor_v2.master.id
+  flavor_id = data.openstack_compute_flavor_v2.master.id
   key_pair          = openstack_compute_keypair_v2.k8s.name
 
 
@@ -369,7 +366,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
   count             = var.number_of_k8s_masters_no_floating_ip
   availability_zone = element(var.az_list, count.index)
   image_id          = var.master_root_volume_size_in_gb == 0 ? local.image_to_use_master : null
-  flavor_id = openstack_compute_flavor_v2.master.id
+  flavor_id = data.openstack_compute_flavor_v2.master.id
   key_pair          = openstack_compute_keypair_v2.k8s.name
 
   dynamic "block_device" {
@@ -411,7 +408,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip_no_etcd" {
   count             = var.number_of_k8s_masters_no_floating_ip_no_etcd
   availability_zone = element(var.az_list, count.index)
   image_id          = var.master_root_volume_size_in_gb == 0 ? local.image_to_use_master : null
-  flavor_id = openstack_compute_flavor_v2.master.id
+  flavor_id = data.openstack_compute_flavor_v2.master.id
   key_pair          = openstack_compute_keypair_v2.k8s.name
 
   dynamic "block_device" {
@@ -453,7 +450,7 @@ resource "openstack_compute_instance_v2" "k8s_node" {
   count             = var.number_of_k8s_nodes
   availability_zone = element(var.az_list_node, count.index)
   image_id          = var.node_root_volume_size_in_gb == 0 ? local.image_to_use_node : null
-  flavor_id = openstack_compute_flavor_v2.node.id
+  flavor_id = data.openstack_compute_flavor_v2.node.id
   key_pair          = openstack_compute_keypair_v2.k8s.name
 
   dynamic "block_device" {
@@ -498,7 +495,7 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   count             = var.number_of_k8s_nodes_no_floating_ip
   availability_zone = element(var.az_list_node, count.index)
   image_id          = var.node_root_volume_size_in_gb == 0 ? local.image_to_use_node : null
-  flavor_id = openstack_compute_flavor_v2.node.id
+  flavor_id = data.openstack_compute_flavor_v2.node.id
   key_pair          = openstack_compute_keypair_v2.k8s.name
 
   dynamic "block_device" {
