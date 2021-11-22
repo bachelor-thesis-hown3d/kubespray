@@ -16,7 +16,7 @@ ssh_user = "ubuntu"
 # 0|1 bastion nodes
 number_of_bastions = 1
 
-#flavor_bastion = "<UUID>"
+flavor_bastion = "4b68a215-af25-4eb9-af31-a003ab5835e2"
 
 # standalone etcds
 number_of_etcd = 0
@@ -30,16 +30,12 @@ number_of_k8s_masters_no_floating_ip = 1
 
 number_of_k8s_masters_no_floating_ip_no_etcd = 0
 
-cpus_k8s_master = 2
-memory_k8s_master = 2048
-
+flavor_k8s_master = "a15f01d9-4225-4d66-854d-ab1f32666188"
 # nodes
 number_of_k8s_nodes = 0
 
 number_of_k8s_nodes_no_floating_ip = 3
-
-cpus_k8s_node = 2
-memory_k8s_node = 2048
+flavor_k8s_node = "a15f01d9-4225-4d66-854d-ab1f32666188"
 
 # GlusterFS
 # either 0 or more than one
